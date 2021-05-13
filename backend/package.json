@@ -9,12 +9,8 @@
     "postinstall": "keystone-next postinstall",
     "lint": "eslint --fix .",
     "format": "prettier --write './**/*.{js,jsx,ts,tsx,css,md,mdx,json}' --config ./.prettierrc",
-    "prepare": "cd .. && husky install backend/.husky"
-  },
-  "lint-staged": {
-    "./**/*.{js,jsx,ts,tsx}": [
-      "eslint --fix"
-    ]
+    "prepare": "cd .. && husky install backend/.husky",
+    "lint-staged": "eslint --fix './**/*.{js,jsx,ts,tsx,css,md,mdx,json}'"
   },
   "dependencies": {
     "@keystone-next/auth": "^21.0.0",
