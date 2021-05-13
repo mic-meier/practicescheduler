@@ -3,9 +3,9 @@
 
 
 "@apollo/client@^3.1.3", "@apollo/client@^3.2.5", "@apollo/client@^3.3.15", "@apollo/client@^3.3.16":
-  "integrity" "sha512-hPZ52Qhp/QFb5BhLdoY3EVckRwHX+YhbjbZNN1cgEjHmhgBesWzQtE+euaBWR7nyYGl4rhkzheX14rotfON40Q=="
-  "resolved" "https://registry.yarnpkg.com/@apollo/client/-/client-3.3.17.tgz"
-  "version" "3.3.17"
+  "integrity" "sha512-SaJSda4V36/pnv7jkCBROBPwd3w/3TnG/Bd8oLESuNqm6ruXDHt067ow00Y2zz1AOL8SuOI9LXjmkr+FcTqnIQ=="
+  "resolved" "https://registry.yarnpkg.com/@apollo/client/-/client-3.3.18.tgz"
+  "version" "3.3.18"
   dependencies:
     "@graphql-typed-document-node/core" "^3.0.0"
     "@types/zen-observable" "^0.8.0"
@@ -414,9 +414,9 @@
     "value-or-promise" "1.0.6"
 
 "@graphql-tools/utils@^7.1.2", "@graphql-tools/utils@^7.7.0":
-  "integrity" "sha512-k4bQWsOnSJSW7suBnVUJf3Sc8uXuvIYLHXujbEoSrwOEHjC+707GvXbQ7rg+8l7v8NMgpyARyuKFlqz3cfoxBQ=="
-  "resolved" "https://registry.yarnpkg.com/@graphql-tools/utils/-/utils-7.9.1.tgz"
-  "version" "7.9.1"
+  "integrity" "sha512-d334r6bo9mxdSqZW6zWboEnnOOFRrAPVQJ7LkU8/6grglrbcu6WhwCLzHb90E94JI3TD3ricC3YGbUqIi9Xg0w=="
+  "resolved" "https://registry.yarnpkg.com/@graphql-tools/utils/-/utils-7.10.0.tgz"
+  "version" "7.10.0"
   dependencies:
     "@ardatan/aggregate-error" "0.0.6"
     "camel-case" "4.1.2"
