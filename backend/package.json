@@ -8,12 +8,8 @@
     "build": "keystone-next build",
     "postinstall": "keystone-next postinstall",
     "lint": "eslint --fix .",
-    "format": "prettier --write './**/*.{js,jsx,ts,tsx,css,md,mdx,json}' --config ./.prettierrc"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
+    "format": "prettier --write './**/*.{js,jsx,ts,tsx,css,md,mdx,json}' --config ./.prettierrc",
+    "prepare": "cd .. && husky install backend/.husky"
   },
   "lint-staged": {
     "./**/*.{js,jsx,ts,tsx}": [
