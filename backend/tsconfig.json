@@ -8,6 +8,6 @@
     "forceConsistentCasingInFileNames": true,
     "noUnusedLocals": true,
     "noImplicitAny": true,
-    "noFallthroughCasesInSwitch": true,
+    "noFallthroughCasesInSwitch": true
   }
 }

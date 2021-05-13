@@ -1,25 +1,25 @@
-import { config } from '@keystone-next/keystone/schema';
+import { createAuth } from '@keystone-next/auth'
+import { config } from '@keystone-next/keystone/schema'
 import {
   statelessSessions,
   withItemData,
-} from '@keystone-next/keystone/session';
-import { createAuth } from '@keystone-next/auth';
+} from '@keystone-next/keystone/session'
 
-import { lists } from './schema';
+import { lists } from './schema'
 
-let sessionSecret = process.env.SESSION_SECRET;
+let sessionSecret = process.env.SESSION_SECRET
 
 if (!sessionSecret) {
   if (process.env.NODE_ENV === 'production') {
     throw new Error(
       'The SESSION_SECRET environment variable must be set in production'
-    );
+    )
   } else {
-    sessionSecret = '-- DEV COOKIE SECRET; CHANGE ME --';
+    sessionSecret = '-- DEV COOKIE SECRET; CHANGE ME --'
   }
 }
 
-let sessionMaxAge = 60 * 60 * 24 * 30; // 30 days
+const sessionMaxAge = 60 * 60 * 24 * 30 // 30 days
 
 const auth = createAuth({
   listKey: 'User',
@@ -28,13 +28,15 @@ const auth = createAuth({
   initFirstItem: {
     fields: ['name', 'email', 'password'],
   },
-});
+})
 
 export default auth.withAuth(
   config({
     db: {
       adapter: 'prisma_postgresql',
-      url: process.env.DATABASE_URL || 'postgres://practiceschedule:WY86jZ.rihRrx@mBhGdfa-6KWrkWuoP*rnuVDR-gpvBm-@localhost/practiceschedule',
+      url:
+        process.env.DATABASE_URL ||
+        'postgres://practiceschedule:WY86jZ.rihRrx@mBhGdfa-6KWrkWuoP*rnuVDR-gpvBm-@localhost/practiceschedule',
     },
     ui: {
       isAccessAllowed: (context) => !!context.session?.data,
@@ -48,4 +50,4 @@ export default auth.withAuth(
       { User: 'name' }
     ),
   })
-);
+)
