@@ -9,8 +9,18 @@ generator client {
 }
 
 model User {
-  id       Int     @id @default(autoincrement())
+  id       Int               @id @default(autoincrement())
   name     String?
-  email    String? @unique
+  email    String?           @unique
   password String?
+  routines PracticeRoutine[] @relation("PracticeRoutineuser")
+}
+
+model PracticeRoutine {
+  id     Int     @id @default(autoincrement())
+  name   String?
+  user   User?   @relation("PracticeRoutineuser", fields: [userId], references: [id])
+  userId Int?    @map("user")
+
+  @@index([userId])
 }

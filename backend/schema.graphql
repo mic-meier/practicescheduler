@@ -1,3 +1,10 @@
+input PracticeRoutineRelateToManyInput {
+  create: [PracticeRoutineCreateInput]
+  connect: [PracticeRoutineWhereUniqueInput]
+  disconnect: [PracticeRoutineWhereUniqueInput]
+  disconnectAll: Boolean
+}
+
 """
  A keystone list
 """
@@ -6,6 +13,22 @@ type User {
   name: String
   email: String
   password_is_set: Boolean
+  routines(
+    where: PracticeRoutineWhereInput
+    search: String
+    sortBy: [SortPracticeRoutinesBy!]
+    orderBy: String
+    first: Int
+    skip: Int
+  ): [PracticeRoutine!]!
+  _routinesMeta(
+    where: PracticeRoutineWhereInput
+    search: String
+    sortBy: [SortPracticeRoutinesBy!]
+    orderBy: String
+    first: Int
+    skip: Int
+  ): _QueryMeta
 }
 
 input UserWhereInput {
@@ -56,6 +79,21 @@ input UserWhereInput {
   email_in: [String]
   email_not_in: [String]
   password_is_set: Boolean
+
+  """
+   condition must be true for all nodes
+  """
+  routines_every: PracticeRoutineWhereInput
+
+  """
+   condition must be true for at least 1 node
+  """
+  routines_some: PracticeRoutineWhereInput
+
+  """
+   condition must be false for all nodes
+  """
+  routines_none: PracticeRoutineWhereInput
 }
 
 input UserWhereUniqueInput {
@@ -69,12 +107,15 @@ enum SortUsersBy {
   name_DESC
   email_ASC
   email_DESC
+  routines_ASC
+  routines_DESC
 }
 
 input UserUpdateInput {
   name: String
   email: String
   password: String
+  routines: PracticeRoutineRelateToManyInput
 }
 
 input UsersUpdateInput {
@@ -86,10 +127,92 @@ input UserCreateInput {
   name: String
   email: String
   password: String
+  routines: PracticeRoutineRelateToManyInput
 }
 
 input UsersCreateInput {
   data: UserCreateInput
+}
+
+input UserRelateToOneInput {
+  create: UserCreateInput
+  connect: UserWhereUniqueInput
+  disconnect: UserWhereUniqueInput
+  disconnectAll: Boolean
+}
+
+"""
+ A keystone list
+"""
+type PracticeRoutine {
+  id: ID!
+  name: String
+  user: User
+}
+
+input PracticeRoutineWhereInput {
+  AND: [PracticeRoutineWhereInput]
+  OR: [PracticeRoutineWhereInput]
+  id: ID
+  id_not: ID
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_in: [ID]
+  id_not_in: [ID]
+  name: String
+  name_not: String
+  name_contains: String
+  name_not_contains: String
+  name_starts_with: String
+  name_not_starts_with: String
+  name_ends_with: String
+  name_not_ends_with: String
+  name_i: String
+  name_not_i: String
+  name_contains_i: String
+  name_not_contains_i: String
+  name_starts_with_i: String
+  name_not_starts_with_i: String
+  name_ends_with_i: String
+  name_not_ends_with_i: String
+  name_in: [String]
+  name_not_in: [String]
+  user: UserWhereInput
+  user_is_null: Boolean
+}
+
+input PracticeRoutineWhereUniqueInput {
+  id: ID!
+}
+
+enum SortPracticeRoutinesBy {
+  id_ASC
+  id_DESC
+  name_ASC
+  name_DESC
+  user_ASC
+  user_DESC
+}
+
+input PracticeRoutineUpdateInput {
+  name: String
+  user: UserRelateToOneInput
+}
+
+input PracticeRoutinesUpdateInput {
+  id: ID!
+  data: PracticeRoutineUpdateInput
+}
+
+input PracticeRoutineCreateInput {
+  name: String
+  user: UserRelateToOneInput
+}
+
+input PracticeRoutinesCreateInput {
+  data: PracticeRoutineCreateInput
 }
 
 """
@@ -134,6 +257,39 @@ type Mutation {
    Delete multiple User items by ID.
   """
   deleteUsers(ids: [ID!]): [User]
+
+  """
+   Create a single PracticeRoutine item.
+  """
+  createPracticeRoutine(data: PracticeRoutineCreateInput): PracticeRoutine
+
+  """
+   Create multiple PracticeRoutine items.
+  """
+  createPracticeRoutines(data: [PracticeRoutinesCreateInput]): [PracticeRoutine]
+
+  """
+   Update a single PracticeRoutine item by ID.
+  """
+  updatePracticeRoutine(
+    id: ID!
+    data: PracticeRoutineUpdateInput
+  ): PracticeRoutine
+
+  """
+   Update multiple PracticeRoutine items by ID.
+  """
+  updatePracticeRoutines(data: [PracticeRoutinesUpdateInput]): [PracticeRoutine]
+
+  """
+   Delete a single PracticeRoutine item by ID.
+  """
+  deletePracticeRoutine(id: ID!): PracticeRoutine
+
+  """
+   Delete multiple PracticeRoutine items by ID.
+  """
+  deletePracticeRoutines(ids: [ID!]): [PracticeRoutine]
   authenticateUserWithPassword(
     email: String!
     password: String!
@@ -204,6 +360,35 @@ type Query {
     where: UserWhereInput
     search: String
     sortBy: [SortUsersBy!]
+    orderBy: String
+    first: Int
+    skip: Int
+  ): _QueryMeta
+
+  """
+   Search for all PracticeRoutine items which match the where clause.
+  """
+  allPracticeRoutines(
+    where: PracticeRoutineWhereInput
+    search: String
+    sortBy: [SortPracticeRoutinesBy!]
+    orderBy: String
+    first: Int
+    skip: Int
+  ): [PracticeRoutine]
+
+  """
+   Search for the PracticeRoutine item with the matching ID.
+  """
+  PracticeRoutine(where: PracticeRoutineWhereUniqueInput!): PracticeRoutine
+
+  """
+   Perform a meta-query on all PracticeRoutine items which match the where clause.
+  """
+  _allPracticeRoutinesMeta(
+    where: PracticeRoutineWhereInput
+    search: String
+    sortBy: [SortPracticeRoutinesBy!]
     orderBy: String
     first: Int
     skip: Int
