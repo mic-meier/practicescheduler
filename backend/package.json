@@ -3,7 +3,7 @@
   "version": "2.0.0",
   "private": true,
   "scripts": {
-    "dev": "keystone-next dev",
+    "dev": "keystone-next dev PORT=3001",
     "start": "keystone-next start",
     "build": "keystone-next build",
     "postinstall": "keystone-next postinstall",
