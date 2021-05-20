@@ -1,11 +1,10 @@
-import 'dotenv/config'
-
 import { createAuth } from '@keystone-next/auth'
 import { config } from '@keystone-next/keystone/schema'
 import {
   statelessSessions,
   withItemData,
 } from '@keystone-next/keystone/session'
+import { ServerConfig } from '@keystone-next/types'
 
 import { lists } from './schema'
 
@@ -51,5 +50,8 @@ export default auth.withAuth(
       }),
       { User: 'name' }
     ),
+    server: {
+      port: 3001,
+    },
   })
 )

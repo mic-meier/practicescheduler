@@ -9,28 +9,18 @@ generator client {
 }
 
 model User {
-  id       Int     @id @default(autoincrement())
+  id       Int               @id @default(autoincrement())
   name     String?
-  email    String? @unique
+  email    String?           @unique
   password String?
-  posts    Post[]  @relation("Postauthor")
+  routines PracticeRoutine[] @relation("PracticeRoutineuser")
 }
 
-model Post {
-  id          Int       @id @default(autoincrement())
-  title       String?
-  status      String?
-  content     Json?
-  publishDate DateTime?
-  author      User?     @relation("Postauthor", fields: [authorId], references: [id])
-  authorId    Int?      @map("author")
-  tags        Tag[]     @relation("Post_tags_Tag_posts", references: [id])
+model PracticeRoutine {
+  id     Int     @id @default(autoincrement())
+  name   String?
+  user   User?   @relation("PracticeRoutineuser", fields: [userId], references: [id])
+  userId Int?    @map("user")
 
-  @@index([authorId])
-}
-
-model Tag {
-  id    Int     @id @default(autoincrement())
-  name  String?
-  posts Post[]  @relation("Post_tags_Tag_posts", references: [id])
+  @@index([userId])
 }
