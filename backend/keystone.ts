@@ -52,6 +52,7 @@ export default auth.withAuth(
     ),
     server: {
       port: 3001,
+      cors: { origin: ['http://localhost:3000'] },
     },
   })
 )
