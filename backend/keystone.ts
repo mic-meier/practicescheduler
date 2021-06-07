@@ -4,7 +4,6 @@ import {
   statelessSessions,
   withItemData,
 } from '@keystone-next/keystone/session'
-import { ServerConfig } from '@keystone-next/types'
 
 import { lists } from './schema'
 

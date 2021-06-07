@@ -19,36 +19,18 @@ export const ALL_PRACTICEROUTINES_QUERY = gql`
   }
 `
 
+type Routine = {
+  name: string
+  id: string
+}
+
 async function getRoutines() {
   const data = await request(apiEndpoint, ALL_PRACTICEROUTINES_QUERY)
   return data.allPracticeRoutines
 }
 
-function TestList() {
-  const [{ allPracticeRoutines }, setRoutines] = useState<any>({})
-
-  useEffect(() => {
-    const req = async () => {
-      const data = await request(apiEndpoint, ALL_PRACTICEROUTINES_QUERY)
-      setRoutines(data)
-    }
-    req()
-  }, [])
-
-  return (
-    <div>
-      {JSON.stringify(allPracticeRoutines, null, 2)}
-      {allPracticeRoutines
-        ? allPracticeRoutines.map((routine) => (
-            <div key={routine.id}>{routine.name}</div>
-          ))
-        : null}
-    </div>
-  )
-}
-
 export default function Home() {
-  const { data } = useQuery('routines', getRoutines)
+  const { data } = useQuery<Routine[]>('routines', getRoutines)
   console.log('from react-query', data)
 
   return (
@@ -60,7 +42,6 @@ export default function Home() {
       </Head>
 
       <main>
-        <TestList />
         <div className="flex items-center justify-center h-screen">
           <h1 className="text-7xl">
             Welcome to{' '}
@@ -71,7 +52,7 @@ export default function Home() {
           </h1>
         </div>
       </main>
-      {data.map((routine) => (
+      {data?.map((routine) => (
         <div key={routine.id}>{routine.name}</div>
       ))}
     </div>
