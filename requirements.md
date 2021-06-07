@@ -5,15 +5,15 @@ exercise = {
   id: id,
   slug: uuid,
   name: string,
-  category: 'Technique' | 'Theory' | 'Ear Training' |'Repertoire',
-  duration: ??,
   description: string,
+  category: 'Technique' | 'Theory' | 'Ear Training' |'Repertoire',
+  duration: integer,
   notes: string,
-  creator: reference to user,
+  user: reference to user,
   created_at: date,
   updated_at: date }
 
-practiceRoutine = {
+routine = {
   id: id,
   slug: uuid,
   name: string,

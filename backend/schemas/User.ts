@@ -11,8 +11,15 @@ export const User = list({
     name: text({ isRequired: true }),
     email: text({ isRequired: true, isUnique: true }),
     password: password({ isRequired: true }),
+    exercises: relationship({
+      ref: 'Exercise.user',
+      many: true,
+      ui: {
+        displayMode: 'select',
+      },
+    }),
     routines: relationship({
-      ref: 'PracticeRoutine.user',
+      ref: 'Routine.user',
       many: true,
       ui: {
         displayMode: 'select',

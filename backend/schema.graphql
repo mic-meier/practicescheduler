@@ -1,7 +1,14 @@
-input PracticeRoutineRelateToManyInput {
-  create: [PracticeRoutineCreateInput]
-  connect: [PracticeRoutineWhereUniqueInput]
-  disconnect: [PracticeRoutineWhereUniqueInput]
+input ExerciseRelateToManyInput {
+  create: [ExerciseCreateInput]
+  connect: [ExerciseWhereUniqueInput]
+  disconnect: [ExerciseWhereUniqueInput]
+  disconnectAll: Boolean
+}
+
+input RoutineRelateToManyInput {
+  create: [RoutineCreateInput]
+  connect: [RoutineWhereUniqueInput]
+  disconnect: [RoutineWhereUniqueInput]
   disconnectAll: Boolean
 }
 
@@ -13,18 +20,34 @@ type User {
   name: String
   email: String
   password_is_set: Boolean
-  routines(
-    where: PracticeRoutineWhereInput
+  exercises(
+    where: ExerciseWhereInput
     search: String
-    sortBy: [SortPracticeRoutinesBy!]
+    sortBy: [SortExercisesBy!]
     orderBy: String
     first: Int
     skip: Int
-  ): [PracticeRoutine!]!
-  _routinesMeta(
-    where: PracticeRoutineWhereInput
+  ): [Exercise!]!
+  _exercisesMeta(
+    where: ExerciseWhereInput
     search: String
-    sortBy: [SortPracticeRoutinesBy!]
+    sortBy: [SortExercisesBy!]
+    orderBy: String
+    first: Int
+    skip: Int
+  ): _QueryMeta
+  routines(
+    where: RoutineWhereInput
+    search: String
+    sortBy: [SortRoutinesBy!]
+    orderBy: String
+    first: Int
+    skip: Int
+  ): [Routine!]!
+  _routinesMeta(
+    where: RoutineWhereInput
+    search: String
+    sortBy: [SortRoutinesBy!]
     orderBy: String
     first: Int
     skip: Int
@@ -83,17 +106,32 @@ input UserWhereInput {
   """
    condition must be true for all nodes
   """
-  routines_every: PracticeRoutineWhereInput
+  exercises_every: ExerciseWhereInput
 
   """
    condition must be true for at least 1 node
   """
-  routines_some: PracticeRoutineWhereInput
+  exercises_some: ExerciseWhereInput
 
   """
    condition must be false for all nodes
   """
-  routines_none: PracticeRoutineWhereInput
+  exercises_none: ExerciseWhereInput
+
+  """
+   condition must be true for all nodes
+  """
+  routines_every: RoutineWhereInput
+
+  """
+   condition must be true for at least 1 node
+  """
+  routines_some: RoutineWhereInput
+
+  """
+   condition must be false for all nodes
+  """
+  routines_none: RoutineWhereInput
 }
 
 input UserWhereUniqueInput {
@@ -107,6 +145,8 @@ enum SortUsersBy {
   name_DESC
   email_ASC
   email_DESC
+  exercises_ASC
+  exercises_DESC
   routines_ASC
   routines_DESC
 }
@@ -115,7 +155,8 @@ input UserUpdateInput {
   name: String
   email: String
   password: String
-  routines: PracticeRoutineRelateToManyInput
+  exercises: ExerciseRelateToManyInput
+  routines: RoutineRelateToManyInput
 }
 
 input UsersUpdateInput {
@@ -127,7 +168,8 @@ input UserCreateInput {
   name: String
   email: String
   password: String
-  routines: PracticeRoutineRelateToManyInput
+  exercises: ExerciseRelateToManyInput
+  routines: RoutineRelateToManyInput
 }
 
 input UsersCreateInput {
@@ -144,15 +186,31 @@ input UserRelateToOneInput {
 """
  A keystone list
 """
-type PracticeRoutine {
+type Routine {
   id: ID!
   name: String
   user: User
+  exercises(
+    where: ExerciseWhereInput
+    search: String
+    sortBy: [SortExercisesBy!]
+    orderBy: String
+    first: Int
+    skip: Int
+  ): [Exercise!]!
+  _exercisesMeta(
+    where: ExerciseWhereInput
+    search: String
+    sortBy: [SortExercisesBy!]
+    orderBy: String
+    first: Int
+    skip: Int
+  ): _QueryMeta
 }
 
-input PracticeRoutineWhereInput {
-  AND: [PracticeRoutineWhereInput]
-  OR: [PracticeRoutineWhereInput]
+input RoutineWhereInput {
+  AND: [RoutineWhereInput]
+  OR: [RoutineWhereInput]
   id: ID
   id_not: ID
   id_lt: ID
@@ -181,38 +239,290 @@ input PracticeRoutineWhereInput {
   name_not_in: [String]
   user: UserWhereInput
   user_is_null: Boolean
+
+  """
+   condition must be true for all nodes
+  """
+  exercises_every: ExerciseWhereInput
+
+  """
+   condition must be true for at least 1 node
+  """
+  exercises_some: ExerciseWhereInput
+
+  """
+   condition must be false for all nodes
+  """
+  exercises_none: ExerciseWhereInput
 }
 
-input PracticeRoutineWhereUniqueInput {
+input RoutineWhereUniqueInput {
   id: ID!
 }
 
-enum SortPracticeRoutinesBy {
+enum SortRoutinesBy {
   id_ASC
   id_DESC
   name_ASC
   name_DESC
   user_ASC
   user_DESC
+  exercises_ASC
+  exercises_DESC
 }
 
-input PracticeRoutineUpdateInput {
+input RoutineUpdateInput {
   name: String
   user: UserRelateToOneInput
+  exercises: ExerciseRelateToManyInput
 }
 
-input PracticeRoutinesUpdateInput {
+input RoutinesUpdateInput {
   id: ID!
-  data: PracticeRoutineUpdateInput
+  data: RoutineUpdateInput
 }
 
-input PracticeRoutineCreateInput {
+input RoutineCreateInput {
   name: String
   user: UserRelateToOneInput
+  exercises: ExerciseRelateToManyInput
 }
 
-input PracticeRoutinesCreateInput {
-  data: PracticeRoutineCreateInput
+input RoutinesCreateInput {
+  data: RoutineCreateInput
+}
+
+enum ExerciseCategoryType {
+  technique
+  theory
+  earTraining
+  repertoire
+}
+
+"""
+ A keystone list
+"""
+type Exercise {
+  id: ID!
+  name: String
+  slug: String
+  description: String
+  category: ExerciseCategoryType
+  duration: Int
+  notes: String
+  createdAt: String
+  updatedAt: String
+  user: User
+  routines(
+    where: RoutineWhereInput
+    search: String
+    sortBy: [SortRoutinesBy!]
+    orderBy: String
+    first: Int
+    skip: Int
+  ): [Routine!]!
+  _routinesMeta(
+    where: RoutineWhereInput
+    search: String
+    sortBy: [SortRoutinesBy!]
+    orderBy: String
+    first: Int
+    skip: Int
+  ): _QueryMeta
+}
+
+input ExerciseWhereInput {
+  AND: [ExerciseWhereInput]
+  OR: [ExerciseWhereInput]
+  id: ID
+  id_not: ID
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_in: [ID]
+  id_not_in: [ID]
+  name: String
+  name_not: String
+  name_contains: String
+  name_not_contains: String
+  name_starts_with: String
+  name_not_starts_with: String
+  name_ends_with: String
+  name_not_ends_with: String
+  name_i: String
+  name_not_i: String
+  name_contains_i: String
+  name_not_contains_i: String
+  name_starts_with_i: String
+  name_not_starts_with_i: String
+  name_ends_with_i: String
+  name_not_ends_with_i: String
+  name_in: [String]
+  name_not_in: [String]
+  slug: String
+  slug_not: String
+  slug_contains: String
+  slug_not_contains: String
+  slug_starts_with: String
+  slug_not_starts_with: String
+  slug_ends_with: String
+  slug_not_ends_with: String
+  slug_i: String
+  slug_not_i: String
+  slug_contains_i: String
+  slug_not_contains_i: String
+  slug_starts_with_i: String
+  slug_not_starts_with_i: String
+  slug_ends_with_i: String
+  slug_not_ends_with_i: String
+  slug_in: [String]
+  slug_not_in: [String]
+  description: String
+  description_not: String
+  description_contains: String
+  description_not_contains: String
+  description_starts_with: String
+  description_not_starts_with: String
+  description_ends_with: String
+  description_not_ends_with: String
+  description_i: String
+  description_not_i: String
+  description_contains_i: String
+  description_not_contains_i: String
+  description_starts_with_i: String
+  description_not_starts_with_i: String
+  description_ends_with_i: String
+  description_not_ends_with_i: String
+  description_in: [String]
+  description_not_in: [String]
+  category: ExerciseCategoryType
+  category_not: ExerciseCategoryType
+  category_in: [ExerciseCategoryType]
+  category_not_in: [ExerciseCategoryType]
+  duration: Int
+  duration_not: Int
+  duration_lt: Int
+  duration_lte: Int
+  duration_gt: Int
+  duration_gte: Int
+  duration_in: [Int]
+  duration_not_in: [Int]
+  notes: String
+  notes_not: String
+  notes_contains: String
+  notes_not_contains: String
+  notes_starts_with: String
+  notes_not_starts_with: String
+  notes_ends_with: String
+  notes_not_ends_with: String
+  notes_i: String
+  notes_not_i: String
+  notes_contains_i: String
+  notes_not_contains_i: String
+  notes_starts_with_i: String
+  notes_not_starts_with_i: String
+  notes_ends_with_i: String
+  notes_not_ends_with_i: String
+  notes_in: [String]
+  notes_not_in: [String]
+  createdAt: String
+  createdAt_not: String
+  createdAt_lt: String
+  createdAt_lte: String
+  createdAt_gt: String
+  createdAt_gte: String
+  createdAt_in: [String]
+  createdAt_not_in: [String]
+  updatedAt: String
+  updatedAt_not: String
+  updatedAt_lt: String
+  updatedAt_lte: String
+  updatedAt_gt: String
+  updatedAt_gte: String
+  updatedAt_in: [String]
+  updatedAt_not_in: [String]
+  user: UserWhereInput
+  user_is_null: Boolean
+
+  """
+   condition must be true for all nodes
+  """
+  routines_every: RoutineWhereInput
+
+  """
+   condition must be true for at least 1 node
+  """
+  routines_some: RoutineWhereInput
+
+  """
+   condition must be false for all nodes
+  """
+  routines_none: RoutineWhereInput
+}
+
+input ExerciseWhereUniqueInput {
+  id: ID!
+}
+
+enum SortExercisesBy {
+  id_ASC
+  id_DESC
+  name_ASC
+  name_DESC
+  slug_ASC
+  slug_DESC
+  description_ASC
+  description_DESC
+  category_ASC
+  category_DESC
+  duration_ASC
+  duration_DESC
+  notes_ASC
+  notes_DESC
+  createdAt_ASC
+  createdAt_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+  user_ASC
+  user_DESC
+  routines_ASC
+  routines_DESC
+}
+
+input ExerciseUpdateInput {
+  name: String
+  slug: String
+  description: String
+  category: ExerciseCategoryType
+  duration: Int
+  notes: String
+  createdAt: String
+  updatedAt: String
+  user: UserRelateToOneInput
+  routines: RoutineRelateToManyInput
+}
+
+input ExercisesUpdateInput {
+  id: ID!
+  data: ExerciseUpdateInput
+}
+
+input ExerciseCreateInput {
+  name: String
+  slug: String
+  description: String
+  category: ExerciseCategoryType
+  duration: Int
+  notes: String
+  createdAt: String
+  updatedAt: String
+  user: UserRelateToOneInput
+  routines: RoutineRelateToManyInput
+}
+
+input ExercisesCreateInput {
+  data: ExerciseCreateInput
 }
 
 """
@@ -259,37 +569,64 @@ type Mutation {
   deleteUsers(ids: [ID!]): [User]
 
   """
-   Create a single PracticeRoutine item.
+   Create a single Routine item.
   """
-  createPracticeRoutine(data: PracticeRoutineCreateInput): PracticeRoutine
+  createRoutine(data: RoutineCreateInput): Routine
 
   """
-   Create multiple PracticeRoutine items.
+   Create multiple Routine items.
   """
-  createPracticeRoutines(data: [PracticeRoutinesCreateInput]): [PracticeRoutine]
+  createRoutines(data: [RoutinesCreateInput]): [Routine]
 
   """
-   Update a single PracticeRoutine item by ID.
+   Update a single Routine item by ID.
   """
-  updatePracticeRoutine(
-    id: ID!
-    data: PracticeRoutineUpdateInput
-  ): PracticeRoutine
+  updateRoutine(id: ID!, data: RoutineUpdateInput): Routine
 
   """
-   Update multiple PracticeRoutine items by ID.
+   Update multiple Routine items by ID.
   """
-  updatePracticeRoutines(data: [PracticeRoutinesUpdateInput]): [PracticeRoutine]
+  updateRoutines(data: [RoutinesUpdateInput]): [Routine]
 
   """
-   Delete a single PracticeRoutine item by ID.
+   Delete a single Routine item by ID.
   """
-  deletePracticeRoutine(id: ID!): PracticeRoutine
+  deleteRoutine(id: ID!): Routine
 
   """
-   Delete multiple PracticeRoutine items by ID.
+   Delete multiple Routine items by ID.
   """
-  deletePracticeRoutines(ids: [ID!]): [PracticeRoutine]
+  deleteRoutines(ids: [ID!]): [Routine]
+
+  """
+   Create a single Exercise item.
+  """
+  createExercise(data: ExerciseCreateInput): Exercise
+
+  """
+   Create multiple Exercise items.
+  """
+  createExercises(data: [ExercisesCreateInput]): [Exercise]
+
+  """
+   Update a single Exercise item by ID.
+  """
+  updateExercise(id: ID!, data: ExerciseUpdateInput): Exercise
+
+  """
+   Update multiple Exercise items by ID.
+  """
+  updateExercises(data: [ExercisesUpdateInput]): [Exercise]
+
+  """
+   Delete a single Exercise item by ID.
+  """
+  deleteExercise(id: ID!): Exercise
+
+  """
+   Delete multiple Exercise items by ID.
+  """
+  deleteExercises(ids: [ID!]): [Exercise]
   authenticateUserWithPassword(
     email: String!
     password: String!
@@ -366,29 +703,58 @@ type Query {
   ): _QueryMeta
 
   """
-   Search for all PracticeRoutine items which match the where clause.
+   Search for all Routine items which match the where clause.
   """
-  allPracticeRoutines(
-    where: PracticeRoutineWhereInput
+  allRoutines(
+    where: RoutineWhereInput
     search: String
-    sortBy: [SortPracticeRoutinesBy!]
+    sortBy: [SortRoutinesBy!]
     orderBy: String
     first: Int
     skip: Int
-  ): [PracticeRoutine]
+  ): [Routine]
 
   """
-   Search for the PracticeRoutine item with the matching ID.
+   Search for the Routine item with the matching ID.
   """
-  PracticeRoutine(where: PracticeRoutineWhereUniqueInput!): PracticeRoutine
+  Routine(where: RoutineWhereUniqueInput!): Routine
 
   """
-   Perform a meta-query on all PracticeRoutine items which match the where clause.
+   Perform a meta-query on all Routine items which match the where clause.
   """
-  _allPracticeRoutinesMeta(
-    where: PracticeRoutineWhereInput
+  _allRoutinesMeta(
+    where: RoutineWhereInput
     search: String
-    sortBy: [SortPracticeRoutinesBy!]
+    sortBy: [SortRoutinesBy!]
+    orderBy: String
+    first: Int
+    skip: Int
+  ): _QueryMeta
+
+  """
+   Search for all Exercise items which match the where clause.
+  """
+  allExercises(
+    where: ExerciseWhereInput
+    search: String
+    sortBy: [SortExercisesBy!]
+    orderBy: String
+    first: Int
+    skip: Int
+  ): [Exercise]
+
+  """
+   Search for the Exercise item with the matching ID.
+  """
+  Exercise(where: ExerciseWhereUniqueInput!): Exercise
+
+  """
+   Perform a meta-query on all Exercise items which match the where clause.
+  """
+  _allExercisesMeta(
+    where: ExerciseWhereInput
+    search: String
+    sortBy: [SortExercisesBy!]
     orderBy: String
     first: Int
     skip: Int
