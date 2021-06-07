@@ -1,7 +1,9 @@
 import { apiEndpoint } from 'config'
 import { gql, request } from 'graphql-request'
 import Head from 'next/head'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
+import { QueryClient, useQuery } from 'react-query'
+import { dehydrate } from 'react-query/hydration'
 
 export const ALL_PRACTICEROUTINES_QUERY = gql`
   query ALL_PRACTICEROUTINES_QUERY {
@@ -17,12 +19,20 @@ export const ALL_PRACTICEROUTINES_QUERY = gql`
   }
 `
 
+type Routine = {
+  name: string
+  id: string
+}
+
+async function getRoutines() {
+  const data = await request(apiEndpoint, ALL_PRACTICEROUTINES_QUERY)
+  return data.allPracticeRoutines
+}
+
 export default function Home() {
-  useEffect(() => {
-    request(apiEndpoint, ALL_PRACTICEROUTINES_QUERY)
-      .then((data) => console.log(data.allPracticeRoutines))
-      .catch((e) => console.error(e))
-  }, [])
+  const { data } = useQuery<Routine[]>('routines', getRoutines)
+  console.log('from react-query', data)
+
   return (
     <div>
       <Head>
@@ -42,6 +52,21 @@ export default function Home() {
           </h1>
         </div>
       </main>
+      {data?.map((routine) => (
+        <div key={routine.id}>{routine.name}</div>
+      ))}
     </div>
   )
+}
+
+export async function getServerSideProps() {
+  const queryClient = new QueryClient()
+
+  await queryClient.prefetchQuery('routines', getRoutines)
+
+  return {
+    props: {
+      dehydratedState: dehydrate(queryClient),
+    },
+  }
 }
