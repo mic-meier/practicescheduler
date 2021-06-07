@@ -189,6 +189,11 @@ input UserRelateToOneInput {
 type Routine {
   id: ID!
   name: String
+  slug: String
+  description: String
+  notes: String
+  createdAt: String
+  updatedAt: String
   user: User
   exercises(
     where: ExerciseWhereInput
@@ -237,6 +242,76 @@ input RoutineWhereInput {
   name_not_ends_with_i: String
   name_in: [String]
   name_not_in: [String]
+  slug: String
+  slug_not: String
+  slug_contains: String
+  slug_not_contains: String
+  slug_starts_with: String
+  slug_not_starts_with: String
+  slug_ends_with: String
+  slug_not_ends_with: String
+  slug_i: String
+  slug_not_i: String
+  slug_contains_i: String
+  slug_not_contains_i: String
+  slug_starts_with_i: String
+  slug_not_starts_with_i: String
+  slug_ends_with_i: String
+  slug_not_ends_with_i: String
+  slug_in: [String]
+  slug_not_in: [String]
+  description: String
+  description_not: String
+  description_contains: String
+  description_not_contains: String
+  description_starts_with: String
+  description_not_starts_with: String
+  description_ends_with: String
+  description_not_ends_with: String
+  description_i: String
+  description_not_i: String
+  description_contains_i: String
+  description_not_contains_i: String
+  description_starts_with_i: String
+  description_not_starts_with_i: String
+  description_ends_with_i: String
+  description_not_ends_with_i: String
+  description_in: [String]
+  description_not_in: [String]
+  notes: String
+  notes_not: String
+  notes_contains: String
+  notes_not_contains: String
+  notes_starts_with: String
+  notes_not_starts_with: String
+  notes_ends_with: String
+  notes_not_ends_with: String
+  notes_i: String
+  notes_not_i: String
+  notes_contains_i: String
+  notes_not_contains_i: String
+  notes_starts_with_i: String
+  notes_not_starts_with_i: String
+  notes_ends_with_i: String
+  notes_not_ends_with_i: String
+  notes_in: [String]
+  notes_not_in: [String]
+  createdAt: String
+  createdAt_not: String
+  createdAt_lt: String
+  createdAt_lte: String
+  createdAt_gt: String
+  createdAt_gte: String
+  createdAt_in: [String]
+  createdAt_not_in: [String]
+  updatedAt: String
+  updatedAt_not: String
+  updatedAt_lt: String
+  updatedAt_lte: String
+  updatedAt_gt: String
+  updatedAt_gte: String
+  updatedAt_in: [String]
+  updatedAt_not_in: [String]
   user: UserWhereInput
   user_is_null: Boolean
 
@@ -265,6 +340,16 @@ enum SortRoutinesBy {
   id_DESC
   name_ASC
   name_DESC
+  slug_ASC
+  slug_DESC
+  description_ASC
+  description_DESC
+  notes_ASC
+  notes_DESC
+  createdAt_ASC
+  createdAt_DESC
+  updatedAt_ASC
+  updatedAt_DESC
   user_ASC
   user_DESC
   exercises_ASC
@@ -273,6 +358,11 @@ enum SortRoutinesBy {
 
 input RoutineUpdateInput {
   name: String
+  slug: String
+  description: String
+  notes: String
+  createdAt: String
+  updatedAt: String
   user: UserRelateToOneInput
   exercises: ExerciseRelateToManyInput
 }
@@ -284,6 +374,11 @@ input RoutinesUpdateInput {
 
 input RoutineCreateInput {
   name: String
+  slug: String
+  description: String
+  notes: String
+  createdAt: String
+  updatedAt: String
   user: UserRelateToOneInput
   exercises: ExerciseRelateToManyInput
 }
