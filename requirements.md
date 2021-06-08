@@ -19,7 +19,7 @@ routine = {
   name: string,
   description: string,
   notes: string,
-  practiceItems: \[practiceItem],
+  exercises: \[exercises],
   creator: reference to user,
   created_at: date,
   updated_at: date }

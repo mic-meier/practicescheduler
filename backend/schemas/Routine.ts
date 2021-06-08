@@ -11,7 +11,6 @@ export const Routine = list({
   fields: {
     name: text({ isRequired: true }),
     slug: text({
-      isRequired: true,
       defaultValue: () => uuidv4(),
       ui: {
         createView: {
