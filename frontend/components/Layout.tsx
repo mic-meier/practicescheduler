@@ -85,9 +85,7 @@ const Layout = ({ title, children }: Props) => {
             </button>
           </div>
         </aside>
-        <div className="w-full flex items-center justify-center">
-          {children}
-        </div>
+        <div className="w-full overflow-hidden">{children}</div>
       </div>
     </div>
   )
