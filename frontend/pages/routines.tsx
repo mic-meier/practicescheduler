@@ -1,3 +1,4 @@
+import { withPageAuthRequired } from '@auth0/nextjs-auth0'
 import { routines } from 'dummyData'
 import { calculateRoutineDuration } from 'lib'
 import Link from 'next/link'
@@ -40,3 +41,5 @@ const RoutinesPage = () => {
 }
 
 export default RoutinesPage
+
+export const getServerSideProps = withPageAuthRequired()

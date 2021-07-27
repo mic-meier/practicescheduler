@@ -1,5 +1,6 @@
 import '../styles/globals.css'
 
+import { UserProvider } from '@auth0/nextjs-auth0'
 import Layout from 'components/Layout'
 import { useRef } from 'react'
 import { QueryClient, QueryClientProvider } from 'react-query'
@@ -16,9 +17,11 @@ function MyApp({ Component, pageProps }) {
   return (
     <QueryClientProvider client={queryClientRef.current}>
       <Hydrate state={pageProps.dehydratedState}>
-        <Layout>
-          <Component {...pageProps} />
-        </Layout>
+        <UserProvider>
+          <Layout>
+            <Component {...pageProps} />
+          </Layout>
+        </UserProvider>
         <ReactQueryDevtools initialIsOpen={false} />
       </Hydrate>
     </QueryClientProvider>

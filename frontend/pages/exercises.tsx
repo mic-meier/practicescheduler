@@ -1,3 +1,4 @@
+import { withPageAuthRequired } from '@auth0/nextjs-auth0'
 import { exercises } from 'dummyData'
 import Link from 'next/link'
 import { Exercise } from 'types'
@@ -42,3 +43,5 @@ const ExercisesPage = () => {
 }
 
 export default ExercisesPage
+
+export const getServerSideProps = withPageAuthRequired()
