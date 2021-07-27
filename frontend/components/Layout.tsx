@@ -31,48 +31,53 @@ const Layout = ({ title, children }: Props) => {
           </div>
 
           <ul>
-            <li className="hover:bg-gray-100">
-              <Link href="/profile">
-                <a
-                  className="h-16 px-6 flx flex justify-center items-center w-full
+            {user ? (
+              <ul>
+                <li className="hover:bg-gray-100">
+                  <Link href="/profile">
+                    <a
+                      className="h-16 px-6 flx flex justify-center items-center w-full
 					focus:text-orange-500"
-                >
-                  Profile
-                </a>
-              </Link>
-            </li>
-            <li className="hover:bg-gray-100">
-              <Link href="/exercises">
-                <a
-                  className="h-16 px-6 flex  justify-center items-center w-full
+                    >
+                      Profile
+                    </a>
+                  </Link>
+                </li>
+                <li className="hover:bg-gray-100">
+                  <Link href="/exercises">
+                    <a
+                      className="h-16 px-6 flex  justify-center items-center w-full
 					focus:text-orange-500"
-                >
-                  Exercises
-                </a>
-              </Link>
-            </li>
+                    >
+                      Exercises
+                    </a>
+                  </Link>
+                </li>
 
-            <li className="hover:bg-gray-100">
-              <Link href="/routines">
-                <a
-                  className="h-16 px-6 flex  justify-center items-center w-full
+                <li className="hover:bg-gray-100">
+                  <Link href="/routines">
+                    <a
+                      className="h-16 px-6 flex  justify-center items-center w-full
 					focus:text-orange-500"
-                >
-                  Routines
-                </a>
-              </Link>
-            </li>
-            {user ? null : (
-              <li className="hover:bg-gray-100">
-                <Link href="/api/auth/login">
-                  <a
-                    className="h-16 px-6 flex  justify-center items-center w-full
+                    >
+                      Routines
+                    </a>
+                  </Link>
+                </li>
+              </ul>
+            ) : (
+              <ul>
+                <li className="hover:bg-gray-100">
+                  <Link href="/api/auth/login">
+                    <a
+                      className="h-16 px-6 flex  justify-center items-center w-full
 					focus:text-orange-500"
-                  >
-                    Login
-                  </a>
-                </Link>
-              </li>
+                    >
+                      Login
+                    </a>
+                  </Link>
+                </li>
+              </ul>
             )}
           </ul>
 
