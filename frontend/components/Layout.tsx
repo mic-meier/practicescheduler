@@ -1,3 +1,4 @@
+import { useUser } from '@auth0/nextjs-auth0'
 import Head from 'next/head'
 import Link from 'next/link'
 
@@ -7,6 +8,8 @@ type Props = {
 }
 
 const Layout = ({ title, children }: Props) => {
+  const { user } = useUser()
+
   return (
     <div>
       <Head>
@@ -59,30 +62,44 @@ const Layout = ({ title, children }: Props) => {
                 </a>
               </Link>
             </li>
+            {user ? null : (
+              <li className="hover:bg-gray-100">
+                <Link href="/api/auth/login">
+                  <a
+                    className="h-16 px-6 flex  justify-center items-center w-full
+					focus:text-orange-500"
+                  >
+                    Login
+                  </a>
+                </Link>
+              </li>
+            )}
           </ul>
 
           <div className="mt-auto h-16 flex items-center w-full">
-            <button
-              className="h-16  mx-auto  flex justify-center items-center
+            <Link href="/api/auth/logout">
+              <button
+                className="h-16  mx-auto  flex justify-center items-center
 				w-full focus:text-orange-500 hover:bg-red-200 focus:outline-none"
-            >
-              <svg
-                className="h-5 w-5 text-red-700"
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
               >
-                <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
-                <polyline points="16 17 21 12 16 7"></polyline>
-                <line x1="21" y1="12" x2="9" y2="12"></line>
-              </svg>
-            </button>
+                <svg
+                  className="h-5 w-5 text-red-700"
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                  <polyline points="16 17 21 12 16 7"></polyline>
+                  <line x1="21" y1="12" x2="9" y2="12"></line>
+                </svg>
+              </button>
+            </Link>
           </div>
         </aside>
         <div className="w-full overflow-hidden">{children}</div>
