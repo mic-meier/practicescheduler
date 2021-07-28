@@ -8,7 +8,15 @@ import {
 import { list } from '@keystone-next/keystone/schema'
 import { v4 as uuidv4 } from 'uuid'
 
+import isTokenValid from '../validate'
+
 export const Exercise = list({
+  access: async ({ context }) => {
+    const token = context?.req?.headers.authorization
+    console.log(await isTokenValid(token))
+    const result = await isTokenValid(token)
+    return !result.error
+  },
   ui: {
     listView: {
       initialColumns: ['name', 'slug', 'category', 'duration', 'user'],

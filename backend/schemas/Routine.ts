@@ -3,6 +3,7 @@ import { list } from '@keystone-next/keystone/schema'
 import { v4 as uuidv4 } from 'uuid'
 
 export const Routine = list({
+  access: true,
   ui: {
     listView: {
       initialColumns: ['name', 'user'],

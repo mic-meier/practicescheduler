@@ -2,6 +2,7 @@ import { withPageAuthRequired } from '@auth0/nextjs-auth0'
 import { apiEndpoint } from 'config'
 import { gql, request } from 'graphql-request'
 import Link from 'next/link'
+import { useEffect } from 'react'
 import { QueryClient, useQuery } from 'react-query'
 import { dehydrate } from 'react-query/hydration'
 import { Exercise } from 'types'
@@ -47,6 +48,7 @@ export const ExerciseCard = ({ exercise }: ExerciseCardProps) => {
 
 const ExercisesPage = () => {
   const { data: exercises } = useQuery<Exercise[]>('exercises', getExercises)
+
   return (
     <div className="h-full">
       <h1 className="text-7xl">Exercises Page</h1>
