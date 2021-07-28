@@ -32,9 +32,7 @@ const ExerciseDetailsPage = () => {
   const router = useRouter()
   const { id } = router.query
 
-  const { data: exercise, isLoading, isError, error } = useExercise(Number(id))
-
-  // if (!exercise) return null
+  const { data: exercise, isLoading, isError } = useExercise(Number(id))
 
   if (isLoading) {
     return <div>Loading...</div>
