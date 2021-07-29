@@ -11,11 +11,13 @@ import { v4 as uuidv4 } from 'uuid'
 import isTokenValid from '../validate'
 
 export const Exercise = list({
-  access: async ({ context }) => {
+  access: async ({ context, session }) => {
     const token = context?.req?.headers.authorization
-    console.log(await isTokenValid(token))
+    const { isAdmin } = await context.db.lists.User.findOne({
+      where: { id: session.itemId },
+    })
     const result = await isTokenValid(token)
-    return !result.error
+    return isAdmin || !result.error
   },
   ui: {
     listView: {
