@@ -1,3 +1,4 @@
+import type { KeystoneContext } from '@keystone-next/types'
 import dotenv from 'dotenv'
 import jwt from 'jsonwebtoken'
 import jwksClient from 'jwks-rsa'
@@ -18,11 +19,11 @@ function getKey(header: any, callback: any) {
 }
 
 // TODO: return types
-async function isTokenValid(token: string | undefined) {
+export async function isTokenValid(token: string | undefined) {
   if (token) {
     const bearerToken = token.split(' ')
 
-    const result = new Promise((resolve, reject) => {
+    const result = new Promise((resolve) => {
       jwt.verify(
         bearerToken[1],
         getKey,
@@ -41,11 +42,29 @@ async function isTokenValid(token: string | undefined) {
         }
       )
     })
-
     return result
   }
 
   return { error: 'No token provided' }
 }
 
-export default isTokenValid
+const userHasAccess = async (context: KeystoneContext, session: any) => {
+  if (!session) {
+    const token = context?.req?.headers.authorization
+    const { error } = await isTokenValid(token)
+
+    if (error) {
+      throw new Error(error)
+    }
+    return true
+  }
+
+  if (session) {
+    const { isAdmin } = await context.db.lists.User.findOne({
+      where: { id: session.itemId },
+    })
+    return isAdmin ? true : false
+  }
+}
+
+export default userHasAccess

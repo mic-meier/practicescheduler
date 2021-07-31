@@ -5,17 +5,12 @@ import { gql, GraphQLClient } from 'graphql-request'
 export const ALL_EXERCISES_QUERY = gql`
   query allExercises {
     allExercises {
-      id
       name
       slug
       description
       duration
       notes
       createdAt
-      user {
-        id
-        name
-      }
     }
   }
 `
@@ -33,14 +28,11 @@ async function getExercises(token: string | undefined) {
 export default withApiAuthRequired(async function exercises(req, res) {
   try {
     const { accessToken } = await getAccessToken(req, res)
-
-    console.log(accessToken)
-
     const response = await getExercises(accessToken)
-
+    console.log(response)
     res.json(response)
   } catch (error) {
-    console.error(error)
+    console.error('Error: ', error)
     res.status(error.status || 500).json({
       code: error.code,
       error: error.message,

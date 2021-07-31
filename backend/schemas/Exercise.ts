@@ -8,17 +8,11 @@ import {
 import { list } from '@keystone-next/keystone/schema'
 import { v4 as uuidv4 } from 'uuid'
 
-import isTokenValid from '../validate'
+import validateListAccess from '../lib/validateListAccess'
 
 export const Exercise = list({
-  access: async ({ context, session }) => {
-    const token = context?.req?.headers.authorization
-    const { isAdmin } = await context.db.lists.User.findOne({
-      where: { id: session.itemId },
-    })
-    const result = await isTokenValid(token)
-    return isAdmin || !result.error
-  },
+  access: async ({ context, session }) =>
+    await validateListAccess(context, session),
   ui: {
     listView: {
       initialColumns: ['name', 'slug', 'category', 'duration', 'user'],

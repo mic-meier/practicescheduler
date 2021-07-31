@@ -1,6 +1,4 @@
 import { withPageAuthRequired } from '@auth0/nextjs-auth0'
-import { apiEndpoint } from 'config'
-import { gql, request } from 'graphql-request'
 import Link from 'next/link'
 import { QueryClient, useQuery } from 'react-query'
 import { dehydrate } from 'react-query/hydration'
@@ -8,29 +6,6 @@ import { Exercise } from 'types'
 
 type ExerciseCardProps = {
   exercise: Exercise
-}
-
-export const ALL_EXERCISES_QUERY = gql`
-  query allExercises {
-    allExercises {
-      id
-      name
-      slug
-      description
-      duration
-      notes
-      createdAt
-      user {
-        id
-        name
-      }
-    }
-  }
-`
-
-async function getExercises() {
-  const data = await request(apiEndpoint, ALL_EXERCISES_QUERY)
-  return data.allExercises
 }
 
 export const ExerciseCard = ({ exercise }: ExerciseCardProps) => {
@@ -46,12 +21,13 @@ export const ExerciseCard = ({ exercise }: ExerciseCardProps) => {
 }
 
 const ExercisesPage = () => {
-  const { data: exercises } = useQuery<Exercise[]>('exercises', getExercises)
+  const { data } = useApi()
+  console.log(data)
 
   return (
     <div className="h-full">
       <h1 className="text-7xl">Exercises Page</h1>
-      <div className="max-w-xs max-h-screen justify-center overflow-auto bg-yellow-300">
+      {/* <div className="max-w-xs max-h-screen justify-center overflow-auto bg-yellow-300">
         {exercises ? (
           <div>
             {exercises.map((exercise) => (
@@ -59,7 +35,7 @@ const ExercisesPage = () => {
             ))}
           </div>
         ) : null}
-      </div>
+      </div> */}
     </div>
   )
 }

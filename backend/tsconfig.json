@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "esnext",
+    "target": "ESnext",
     "module": "commonjs",
     "strict": true,
     "noEmit": true,
@@ -9,5 +9,5 @@
     "noUnusedLocals": true,
     "noImplicitAny": true,
     "noFallthroughCasesInSwitch": true
-  }
+  },
 }
