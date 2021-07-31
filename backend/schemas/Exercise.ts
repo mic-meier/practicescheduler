@@ -8,7 +8,11 @@ import {
 import { list } from '@keystone-next/keystone/schema'
 import { v4 as uuidv4 } from 'uuid'
 
+import validateListAccess from '../lib/validateListAccess'
+
 export const Exercise = list({
+  access: async ({ context, session }) =>
+    await validateListAccess(context, session),
   ui: {
     listView: {
       initialColumns: ['name', 'slug', 'category', 'duration', 'user'],

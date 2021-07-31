@@ -13,6 +13,7 @@ model User {
   name      String?
   email     String?    @unique
   password  String?
+  isAdmin   Boolean?
   exercises Exercise[] @relation("Exerciseuser")
   routines  Routine[]  @relation("Routineuser")
 }

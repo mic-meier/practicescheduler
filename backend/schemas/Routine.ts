@@ -2,7 +2,11 @@ import { relationship, text, timestamp } from '@keystone-next/fields'
 import { list } from '@keystone-next/keystone/schema'
 import { v4 as uuidv4 } from 'uuid'
 
+import validateListAccess from '../lib/validateListAccess'
+
 export const Routine = list({
+  access: async ({ context, session }) =>
+    await validateListAccess(context, session),
   ui: {
     listView: {
       initialColumns: ['name', 'user'],
