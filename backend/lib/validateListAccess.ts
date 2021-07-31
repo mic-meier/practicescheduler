@@ -13,7 +13,12 @@ const client = jwksClient({
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 function getKey(header: any, callback: any) {
   client.getSigningKey(header.kid, function (error, key) {
-    const signingKey = key.getPublicKey()
+    let signingKey: string
+    if (key === undefined) {
+      signingKey = ''
+    } else {
+      signingKey = key.getPublicKey()
+    }
     callback(null, signingKey)
   })
 }
@@ -45,7 +50,7 @@ export async function isTokenValid(token: string | undefined) {
     return result
   }
 
-  return { error: 'No token provided' }
+  return { error: { message: 'No token provided' } }
 }
 
 const userHasAccess = async (context: KeystoneContext, session: unknown) => {
@@ -54,16 +59,14 @@ const userHasAccess = async (context: KeystoneContext, session: unknown) => {
     const { error } = await isTokenValid(token)
 
     if (error) {
-      throw new Error(error)
+      console.error('TokenValidationError: ', error.message)
+      return false
     }
     return true
   }
 
   if (session) {
-    const { isAdmin } = await context.db.lists.User.findOne({
-      where: { id: session.itemId },
-    })
-    return isAdmin ? true : false
+    return true
   }
 }
 

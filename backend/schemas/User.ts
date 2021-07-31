@@ -1,7 +1,11 @@
 import { checkbox, password, relationship, text } from '@keystone-next/fields'
 import { list } from '@keystone-next/keystone/schema'
 
+import validateListAccess from '../lib/validateListAccess'
+
 export const User = list({
+  access: async ({ context, session }) =>
+    await validateListAccess(context, session),
   ui: {
     listView: {
       initialColumns: ['name', 'routines'],
