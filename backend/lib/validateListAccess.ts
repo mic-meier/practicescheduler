@@ -48,7 +48,7 @@ export async function isTokenValid(token: string | undefined) {
   return { error: 'No token provided' }
 }
 
-const userHasAccess = async (context: KeystoneContext, session: any) => {
+const userHasAccess = async (context: KeystoneContext, session: unknown) => {
   if (!session) {
     const token = context?.req?.headers.authorization
     const { error } = await isTokenValid(token)

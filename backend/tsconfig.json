@@ -9,5 +9,5 @@
     "noUnusedLocals": true,
     "noImplicitAny": true,
     "noFallthroughCasesInSwitch": true
-  },
+  }
 }
