@@ -28,7 +28,6 @@ export default withApiAuthRequired(async function exercises(req, res) {
   try {
     const { accessToken } = await getAccessToken(req, res)
     const response = await getExercises(accessToken)
-    console.log(response)
     res.json(response)
   } catch (error) {
     console.error('Error: ', error)

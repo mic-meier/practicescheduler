@@ -1,7 +1,6 @@
 import { withPageAuthRequired } from '@auth0/nextjs-auth0'
+import { useApi } from 'lib/hooks'
 import Link from 'next/link'
-import { QueryClient, useQuery } from 'react-query'
-import { dehydrate } from 'react-query/hydration'
 import { Exercise } from 'types'
 
 type ExerciseCardProps = {
@@ -21,38 +20,24 @@ export const ExerciseCard = ({ exercise }: ExerciseCardProps) => {
 }
 
 const ExercisesPage = () => {
-  const { data } = useApi()
-  console.log(data)
+  const { data: exercises, isLoading } = useApi('exercises', 'exercises')
+
+  if (isLoading) return <div>Loading...</div>
 
   return (
     <div className="h-full">
       <h1 className="text-7xl">Exercises Page</h1>
-      {/* <div className="max-w-xs max-h-screen justify-center overflow-auto bg-yellow-300">
+      <div className="max-w-xs max-h-screen justify-center overflow-auto bg-yellow-300">
         {exercises ? (
           <div>
-            {exercises.map((exercise) => (
+            {exercises.map((exercise: Exercise) => (
               <ExerciseCard key={exercise.id} exercise={exercise} />
             ))}
           </div>
         ) : null}
-      </div> */}
+      </div>
     </div>
   )
 }
 
-export default ExercisesPage
-
-export const getServerSideProps = withPageAuthRequired({
-  returnTo: '/',
-  async getServerSideProps() {
-    const queryClient = new QueryClient()
-
-    await queryClient.prefetchQuery('exercises', getExercises)
-
-    return {
-      props: {
-        dehydratedState: dehydrate(queryClient),
-      },
-    }
-  },
-})
+export default withPageAuthRequired(ExercisesPage)

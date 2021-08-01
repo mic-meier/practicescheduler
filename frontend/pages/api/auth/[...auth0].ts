@@ -5,7 +5,7 @@ export default handleAuth({
     try {
       await handleLogin(req, res, {
         authorizationParams: {
-          audience: 'https://practicescheduler/api',
+          audience: process.env.AUTH0_AUDIENCE,
         },
       })
     } catch (error) {
