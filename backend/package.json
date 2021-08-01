@@ -1,28 +1,23 @@
 {
   "name": "keystone-app",
-  "version": "2.0.0",
+  "version": "2.0.10",
   "private": true,
   "scripts": {
-    "dev": "keystone-next dev PORT=3001",
+    "dev": "keystone-next dev",
     "start": "keystone-next start",
     "build": "keystone-next build",
-    "postinstall": "keystone-next postinstall",
-    "lint": "eslint --fix .",
-    "format": "prettier --write './**/*.{js,jsx,ts,tsx,css,md,mdx,json}' --config ./.prettierrc",
-    "prepare": "cd .. && husky install backend/.husky",
-    "lint-staged": "eslint --fix './**/*.{js,jsx,ts,tsx,css,md,mdx,json}'"
+    "postinstall": "keystone-next postinstall"
   },
   "dependencies": {
-    "@keystone-next/auth": "^21.0.0",
-    "@keystone-next/fields": "^7.0.0",
-    "@keystone-next/fields-document": "^5.0.0",
-    "@keystone-next/keystone": "^16.0.0",
+    "@keystone-next/auth": "^30.0.0",
+    "@keystone-next/fields": "^13.0.0",
+    "@keystone-next/fields-document": "^7.0.3",
+    "@keystone-next/keystone": "^23.0.1",
+    "typescript": "^4.3.5",
     "@types/jsonwebtoken": "^8.5.4",
     "dotenv": "^10.0.0",
     "jsonwebtoken": "^8.5.1",
-    "jwks-rsa": "^2.0.4",
-    "typescript": "^4.2.4",
-    "uuid": "^8.3.2"
+    "jwks-rsa": "^2.0.4"
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^4.23.0",

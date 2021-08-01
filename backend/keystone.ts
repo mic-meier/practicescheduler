@@ -1,9 +1,6 @@
 import { createAuth } from '@keystone-next/auth'
 import { config } from '@keystone-next/keystone/schema'
-import {
-  statelessSessions,
-  withItemData,
-} from '@keystone-next/keystone/session'
+import { statelessSessions } from '@keystone-next/keystone/session'
 
 import { lists } from './schema'
 
@@ -21,17 +18,27 @@ if (!sessionSecret) {
 
 const sessionMaxAge = 60 * 60 * 24 * 30 // 30 days
 
-const auth = createAuth({
+const { withAuth } = createAuth({
   listKey: 'User',
   identityField: 'email',
   secretField: 'password',
+  sessionData: 'name',
   initFirstItem: {
     fields: ['name', 'email', 'password'],
   },
 })
 
-export default auth.withAuth(
+const session = statelessSessions({
+  maxAge: sessionMaxAge,
+  secret: sessionSecret,
+})
+
+export default withAuth(
   config({
+    server: {
+      port: 3001,
+      cors: { origin: ['http://localhost:3000'] },
+    },
     db: {
       adapter: 'prisma_postgresql',
       url:
@@ -42,16 +49,6 @@ export default auth.withAuth(
       isAccessAllowed: (context) => !!context.session?.data,
     },
     lists,
-    session: withItemData(
-      statelessSessions({
-        maxAge: sessionMaxAge,
-        secret: sessionSecret,
-      }),
-      { User: 'name' }
-    ),
-    server: {
-      port: 3001,
-      cors: { origin: ['http://localhost:3000'] },
-    },
+    session,
   })
 )

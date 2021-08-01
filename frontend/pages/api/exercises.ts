@@ -6,7 +6,6 @@ export const ALL_EXERCISES_QUERY = gql`
   query allExercises {
     allExercises {
       name
-      slug
       description
       duration
       notes

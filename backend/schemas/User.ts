@@ -1,4 +1,4 @@
-import { checkbox, password, relationship, text } from '@keystone-next/fields'
+import { password, relationship, text } from '@keystone-next/fields'
 import { list } from '@keystone-next/keystone/schema'
 
 import validateListAccess from '../lib/validateListAccess'
@@ -15,7 +15,6 @@ export const User = list({
     name: text({ isRequired: true }),
     email: text({ isRequired: true, isUnique: true }),
     password: password({ isRequired: true }),
-    isAdmin: checkbox(),
     exercises: relationship({
       ref: 'Exercise.user',
       many: true,

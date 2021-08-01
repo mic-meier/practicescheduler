@@ -24,7 +24,13 @@ module.exports = {
     'sort-imports': 'off',
     'import/order': 'off',
     'import/first': 'error',
-    'prettier/prettier': ['error', {}, { usePrettierrc: true }],
+    'prettier/prettier': [
+      'error',
+      {
+        semi: false,
+        singleQuote: true,
+      },
+    ],
   },
-  plugins: ['simple-import-sort', 'import', 'prettier'],
+  plugins: ['@typescript-eslint', 'prettier', 'simple-import-sort', 'import'],
 }
